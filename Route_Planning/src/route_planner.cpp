@@ -37,7 +37,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 
     for (auto neighbor : current_node->neighbors) {
         if (neighbor->visited)
-            continue; //todo: Is it correct to skip nodes that have already been visited?
+            continue;
 
         neighbor->parent = current_node;
         neighbor->h_value = this->CalculateHValue(neighbor);
@@ -111,6 +111,8 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 
 void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = this->start_node;
+
+    current_node->visited = true;
 
     do {
         this->AddNeighbors(current_node);
