@@ -44,7 +44,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
         neighbor->g_value = current_node->g_value + neighbor->distance(*current_node);
         neighbor->visited = true;
 
-        this->open_list.push_back(neighbor);
+        this->open_list.emplace_back(neighbor);
     }
 }
 
@@ -85,7 +85,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     RouteModel::Node* node = current_node;
 
     while (node != nullptr) {
-        path_found.push_back(*node);
+        path_found.emplace_back(*node);
 
         if (node == this->start_node)
             break;
