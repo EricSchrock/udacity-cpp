@@ -1,5 +1,5 @@
 .PHONY: all
-all: format test build
+all: format build test
 
 .PHONY: format
 format:
@@ -11,6 +11,11 @@ build:
 	cd build && \
 	cmake .. && \
 	make
+
+./PHONY: test
+test:
+	stress -c 5 -t 10 > /dev/null &
+	./build/monitor
 
 .PHONY: debug
 debug:
