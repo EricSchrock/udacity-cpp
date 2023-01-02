@@ -8,7 +8,7 @@ build:
 	cmake .. && \
 	make
 
-./PHONY: test
+.PHONY: test
 test:
 	cd build && \
 	./membot
@@ -19,6 +19,17 @@ debug:
 	cd build && \
 	cmake -DCMAKE_BUILD_TYPE=debug .. && \
 	make
+
+.PHONY: grind
+grind:
+	cd build && \
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind.log ./membot
+	echo
+	grep -A 2 "HEAP SUMMARY" build/valgrind.log
+	echo
+	grep -A 8 "LEAK SUMMARY" build/valgrind.log
+	echo
+	grep "ERROR SUMMARY" build/valgrind.log
 
 .PHONY: clean
 clean:
