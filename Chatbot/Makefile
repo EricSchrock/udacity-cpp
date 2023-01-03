@@ -18,7 +18,8 @@ debug:
 	mkdir -p build
 	cd build && \
 	cmake -DCMAKE_BUILD_TYPE=debug .. && \
-	make
+	make && \
+	gdb ./membot
 
 .PHONY: grind
 grind:
