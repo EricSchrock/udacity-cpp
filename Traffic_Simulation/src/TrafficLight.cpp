@@ -10,8 +10,8 @@ T MessageQueue<T>::receive()
     std::unique_lock<std::mutex> lock(_mutex);
     _condition.wait(lock, [this] { return !_queue.empty(); });
 
-    T msg = std::move(_queue.front());
-    _queue.pop_front();
+    T msg = std::move(_queue.back()); // Return the most recent message
+    _queue.clear(); // All but the most recent messages are obsolete
 
     return msg;
 }
@@ -21,7 +21,7 @@ void MessageQueue<T>::send(T &&msg)
 {
     std::lock_guard<std::mutex> lock(_mutex);
 
-    _queue.push_back(std::move(msg));
+    _queue.emplace_back(std::move(msg));
 
     _condition.notify_one();
 }
